@@ -1,4 +1,4 @@
-from yeelight import Bulb, Flow, transitions  # Ensure Flow and LightType are imported
+from yeelight import Bulb, Flow, transitions
 import tkinter as tk
 from tkinter import messagebox
 import customtkinter as ctk
@@ -48,14 +48,14 @@ class App(ctk.CTk):
         self.controls_frame = ctk.CTkFrame(self.basic_controls_frame)
         self.controls_frame.pack(pady=5, fill="x")
 
-        self.on_button = ctk.CTkButton(self.controls_frame, text="Turn On", command=self.turn_on, state=ctk.DISABLED)
-        self.on_button.pack(side="left", padx=10, pady=5, expand=True, fill="x")
+        self.off_button = ctk.CTkButton(self.controls_frame, text="Turn Off", command=self.turn_off, state=ctk.DISABLED)
+        self.off_button.pack(side="left", padx=10, pady=5, expand=True, fill="x")
         
         self.brightness_slider = ctk.CTkSlider(self.controls_frame, from_=0, to=100, command=self.set_brightness)
         self.brightness_slider.pack(side="left", padx=10, pady=5, expand=True, fill="x")
 
-        self.off_button = ctk.CTkButton(self.controls_frame, text="Turn Off", command=self.turn_off, state=ctk.DISABLED)
-        self.off_button.pack(side="left", padx=10, pady=5, expand=True, fill="x")
+        self.on_button = ctk.CTkButton(self.controls_frame, text="Turn On", command=self.turn_on, state=ctk.DISABLED)
+        self.on_button.pack(side="left", padx=10, pady=5, expand=True, fill="x")
 
         # Second row: Modes
         self.modes_frame = ctk.CTkFrame(self.basic_controls_frame)
@@ -120,17 +120,17 @@ class App(ctk.CTk):
 
         self.r_label = ctk.CTkLabel(self.rgb_frame, text="R:")
         self.r_label.pack(side="left", padx=5)
-        self.r_entry = ctk.CTkEntry(self.rgb_frame, width=80)  # Increased width
+        self.r_entry = ctk.CTkEntry(self.rgb_frame, width=80)
         self.r_entry.pack(side="left", padx=5)
 
         self.g_label = ctk.CTkLabel(self.rgb_frame, text="G:")
         self.g_label.pack(side="left", padx=5)
-        self.g_entry = ctk.CTkEntry(self.rgb_frame, width=80)  # Increased width
+        self.g_entry = ctk.CTkEntry(self.rgb_frame, width=80)  
         self.g_entry.pack(side="left", padx=5)
 
         self.b_label = ctk.CTkLabel(self.rgb_frame, text="B:")
         self.b_label.pack(side="left", padx=5)
-        self.b_entry = ctk.CTkEntry(self.rgb_frame, width=80)  # Increased width
+        self.b_entry = ctk.CTkEntry(self.rgb_frame, width=80) 
         self.b_entry.pack(side="left", padx=5)
 
         self.apply_color_button = ctk.CTkButton(self.custom_color_frame, text="Apply Color", command=self.apply_custom_color)
@@ -288,11 +288,11 @@ class App(ctk.CTk):
                     action=Flow.actions.recover,
                     transitions=[
                         transitions.RGBTransition(255, 0, 0, duration=1000),  # Red
-                        transitions.RGBTransition(0, 255, 0, duration=1000),  # Green
-                        transitions.RGBTransition(255, 0, 255, duration=1000),   # Magenta
+                        transitions.RGBTransition(0, 255, 0, duration=1000),   # Green
+                        transitions.RGBTransition(255, 0, 255, duration=1000),    # Magenta
                         transitions.RGBTransition(0, 0, 255, duration=1000),  # Blue
                         transitions.RGBTransition(255, 255, 0, duration=1000),  # Yellow
-                        transitions.RGBTransition(0, 255, 255, duration=1000),  # Cyan
+                        transitions.RGBTransition(0, 255, 255, duration=1000),   # Cyan
 
                     ]
                 )
