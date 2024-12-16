@@ -104,8 +104,19 @@ class App(ctk.CTk):
                     button = ctk.CTkButton(row_frame, text=color_name, command=lambda r=r, g=g, b=b: self.set_color(r, g, b))
                     button.pack(side="left", padx=5, expand=True, fill="x")
 
+        ########################
+        # Custom Color Section #
+        ########################
 
-        # Custom Color Section
+        def validation(new_value):
+            if new_value == "" or (new_value.isdigit() and len(new_value) <= 3):
+                return True
+            return False
+        
+    
+        vcmd = (self.register(validation), "%P")
+
+
         self.custom_color_frame = ctk.CTkFrame(self.main_frame)
         self.custom_color_frame.pack(pady=10, fill="x")
 
@@ -120,17 +131,17 @@ class App(ctk.CTk):
 
         self.r_label = ctk.CTkLabel(self.rgb_frame, text="R:")
         self.r_label.pack(side="left", padx=5)
-        self.r_entry = ctk.CTkEntry(self.rgb_frame, width=80)
+        self.r_entry = ctk.CTkEntry(self.rgb_frame, width=80, validate="key", validatecommand=vcmd)
         self.r_entry.pack(side="left", padx=5)
 
         self.g_label = ctk.CTkLabel(self.rgb_frame, text="G:")
         self.g_label.pack(side="left", padx=5)
-        self.g_entry = ctk.CTkEntry(self.rgb_frame, width=80)  
+        self.g_entry = ctk.CTkEntry(self.rgb_frame, width=80, validate="key", validatecommand=vcmd)  
         self.g_entry.pack(side="left", padx=5)
 
         self.b_label = ctk.CTkLabel(self.rgb_frame, text="B:")
         self.b_label.pack(side="left", padx=5)
-        self.b_entry = ctk.CTkEntry(self.rgb_frame, width=80) 
+        self.b_entry = ctk.CTkEntry(self.rgb_frame, width=80, validate="key", validatecommand=vcmd) 
         self.b_entry.pack(side="left", padx=5)
 
         self.apply_color_button = ctk.CTkButton(self.custom_color_frame, text="Apply Color", command=self.apply_custom_color)
@@ -220,6 +231,11 @@ class App(ctk.CTk):
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to apply custom color: {str(e)}")
 
+
+################################################
+#####  Modes  ##################################
+################################################
+
     def set_study_mode(self):
         if self.bulb:
             try:
@@ -243,6 +259,11 @@ class App(ctk.CTk):
                 self.bulb.set_brightness(64)
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to set work mode: {str(e)}")
+
+
+################################################
+#####  Flows  ##################################
+################################################
 
     def flow1(self):
         if self.bulb:
