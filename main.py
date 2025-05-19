@@ -31,8 +31,6 @@ class App(ctk.CTk):
             
             self.ip_entry = ctk.CTkEntry(self.ip_frame, placeholder_text="Enter IP Address")
             self.ip_entry.pack(side="left", padx=10, pady=10, fill="x", expand=True)
-            # if self.saved_ip:
-            #     self.ip_entry.insert(0, self.saved_ip)  ## REMOVED
 
             self.check_button = ctk.CTkButton(self.ip_frame, text="Check", command=self.check_bulb)
             self.check_button.pack(side="right", padx=10, pady=10)
@@ -60,7 +58,7 @@ class App(ctk.CTk):
             self.on_button = ctk.CTkButton(self.controls_frame, text="Turn On", command=self.turn_on, state=ctk.DISABLED)
             self.on_button.pack(side="left", padx=10, pady=5, expand=True, fill="x")
 
-            # Second row: Modes
+            # Second row: Modes || these modes are set to me own preferences and can be changed manually
             self.modes_frame = ctk.CTkFrame(self.basic_controls_frame)
             self.modes_frame.pack(pady=5, fill="x")
 
@@ -154,22 +152,11 @@ class App(ctk.CTk):
             self.flow3_button = ctk.CTkButton(self.flows_frame, text="Flow 3: Pulse", command=self.flow3)
             self.flow3_button.pack(side="left", padx=10, pady=5, expand=True, fill="x")
 
-        # def load_config(self):
-        #     self.saved_ip = None
-        #     if os.path.exists(self.CONFIG_FILE):
-        #         with open(self.CONFIG_FILE, 'r') as f:
-        #             config = json.load(f)
-        #             self.saved_ip = config.get("bulb_ip")
-
-        # def save_config(self):
-        #     config = {"Light 1": self.ip_entry.get()}
-        #     with open(self.CONFIG_FILE, 'w') as f:
-        #         json.dump(config, f)
 
     def check_bulb(self):
             ip = self.ip_entry.get().strip()
             if not ip:
-                messagebox.showerror("Error", "Please enter an IP address.")
+                messagebox.showerror("Error!!", "Please enter an IP address.")
                 return
             
             try:
@@ -177,18 +164,18 @@ class App(ctk.CTk):
                 self.bulb.get_properties()
                 self.on_button.configure(state=ctk.NORMAL)
                 self.off_button.configure(state=ctk.NORMAL)
-                # self.save_config()  ## ADDED
                 messagebox.showinfo("Success", "Connected to Yeelight bulb.")
             except Exception as e:
                 self.bulb = None
                 messagebox.showerror("Error", f"Failed to connect to Yeelight bulb: {str(e)}")
 
-    def auto_connect(self):  ## ADDED
+    def auto_connect(self): 
         ip = self.finder.get_bulb_ip()
         if ip:
             self.ip_entry.delete(0, "end")
             self.ip_entry.insert(0, ip)
             messagebox.showinfo("Found Bulb", f"Bulb found at IP: {ip}")
+            self.check_bulb()
         else:
             messagebox.showerror("Error", "No bulb found automatically.")
 
@@ -236,6 +223,8 @@ class App(ctk.CTk):
 #####  Modes  ##################################
 ################################################
 
+## These modes may be changed as you desire, for me i set them to the values i found are most suitable to me.
+
     def set_study_mode(self):
         if self.bulb:
             try:
@@ -264,6 +253,8 @@ class App(ctk.CTk):
 ################################################
 #####  Flows  ##################################
 ################################################
+
+## Really unnecessary , just to try flows and flex on your friends.
 
     def flow1(self):
         if self.bulb:
