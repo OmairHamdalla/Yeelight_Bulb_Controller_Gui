@@ -13,11 +13,12 @@ class IPFinder:
         self.bulb_ip = None
         self.debug = debug
 
-    # To only print if debug mode is on.
+    # To only print if debug mode is on. (VERY USEFUL)
     def _log(self, message):
         if self.debug:
             print("[DEBUG]", message)
 
+    ## Checks for the last saved ip if it works to load it
     def _load_saved_ip(self):
         self._log("Checking for saved IP in config file. ")
         if os.path.exists(self.config_file):
@@ -32,8 +33,9 @@ class IPFinder:
         else:
             self._log("No config file found.")
         return None
-
-    def _save_ip(self, ip):
+    
+    ## Saves the ip for next use
+    def _save_ip(self, ip):  
         self._log(f"Saving working IP to config: {ip}")
         try:
             with open(self.config_file, 'w') as f:

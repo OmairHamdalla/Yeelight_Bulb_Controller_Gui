@@ -11,7 +11,7 @@ class App(ctk.CTk):
     def __init__(self):
             super().__init__()
             self.title("Yeelight Bulb Controller")
-            self.geometry("800x700")
+            self.geometry("600x700")
             self.resizable(False, False)
 
             self.finder = IPC.IPFinder(ip_range="192.168.1.")
@@ -116,22 +116,27 @@ class App(ctk.CTk):
             self.rgb_label.pack(pady=5)
 
             self.rgb_frame = ctk.CTkFrame(self.custom_color_frame)
-            self.rgb_frame.pack(pady=5, fill="x")
+            self.rgb_frame.pack(pady=5)
 
-            self.r_label = ctk.CTkLabel(self.rgb_frame, text="R:")
+            # Inner frame for centering
+            self.rgb_inner_frame = ctk.CTkFrame(self.rgb_frame)
+            self.rgb_inner_frame.pack()
+
+            self.r_label = ctk.CTkLabel(self.rgb_inner_frame, text="R:")
             self.r_label.pack(side="left", padx=5)
-            self.r_entry = ctk.CTkEntry(self.rgb_frame, width=80, validate="key", validatecommand=vcmd)
+            self.r_entry = ctk.CTkEntry(self.rgb_inner_frame, width=80, validate="key", validatecommand=vcmd)
             self.r_entry.pack(side="left", padx=5)
 
-            self.g_label = ctk.CTkLabel(self.rgb_frame, text="G:")
+            self.g_label = ctk.CTkLabel(self.rgb_inner_frame, text="G:")
             self.g_label.pack(side="left", padx=5)
-            self.g_entry = ctk.CTkEntry(self.rgb_frame, width=80, validate="key", validatecommand=vcmd)
+            self.g_entry = ctk.CTkEntry(self.rgb_inner_frame, width=80, validate="key", validatecommand=vcmd)
             self.g_entry.pack(side="left", padx=5)
 
-            self.b_label = ctk.CTkLabel(self.rgb_frame, text="B:")
+            self.b_label = ctk.CTkLabel(self.rgb_inner_frame, text="B:")
             self.b_label.pack(side="left", padx=5)
-            self.b_entry = ctk.CTkEntry(self.rgb_frame, width=80, validate="key", validatecommand=vcmd)
+            self.b_entry = ctk.CTkEntry(self.rgb_inner_frame, width=80, validate="key", validatecommand=vcmd)
             self.b_entry.pack(side="left", padx=5)
+
 
             self.apply_color_button = ctk.CTkButton(self.custom_color_frame, text="Apply Color", command=self.apply_custom_color)
             self.apply_color_button.pack(pady=10)
@@ -263,8 +268,18 @@ class App(ctk.CTk):
                     count=0,
                     action=Flow.actions.recover,
                     transitions=[
-                        transitions.RGBTransition(0, 255, 0, duration=2000),  # Green
-                        transitions.RGBTransition(0, 0, 0, duration=2000)     # Off
+                        transitions.RGBTransition(255, 0, 0, duration=2000),   # Red
+                        transitions.RGBTransition(0, 0, 0, duration=2000),             # Fade out
+                        transitions.RGBTransition(250, 200, 52, duration=2000), # Yellow
+                         transitions.RGBTransition(0, 0, 0, duration=2000),             # Fade out
+                        transitions.RGBTransition(30, 255, 30, duration=2000),  # Green
+                        transitions.RGBTransition(0, 0, 0, duration=2000),               # Fade out
+                        transitions.RGBTransition(30, 255, 128, duration=2000), # Cyan
+                        transitions.RGBTransition(0, 0, 0, duration=2000),              # Fade out
+                        transitions.RGBTransition(0, 0, 255, duration=2000),   # Blue
+                        transitions.RGBTransition(0, 0, 0, duration=2000),              # Fade out
+                        transitions.RGBTransition(120, 0, 250, duration=2000), # Purple
+                        transitions.RGBTransition(0, 0, 0, duration=2000),              # Fade out
                     ]
                 )
                 self.bulb.start_flow(flow)
@@ -278,14 +293,14 @@ class App(ctk.CTk):
                     count=0,
                     action=Flow.actions.recover,
                     transitions=[
-                        transitions.RGBTransition(250, 0, 0, duration=2500),   # Red
-                        transitions.RGBTransition(255, 120, 0, duration=2500), # Red-Orange
-                        transitions.RGBTransition(250, 200, 52, duration=2500), # Yellow
-                        transitions.RGBTransition(50, 240, 50, duration=2500),   # Green
-                        transitions.RGBTransition(0, 255, 128, duration=2500), # Green-Cyan
-                        transitions.RGBTransition(50, 50, 240, duration=2500),   # Blue
-                        transitions.RGBTransition(120, 0, 250, duration=2500), # Purple
-                        transitions.RGBTransition(250, 30, 128, duration=2500), # Magenta-Red
+                        transitions.RGBTransition(250, 0, 0, duration=3000),   # Red
+                        transitions.RGBTransition(255, 120, 0, duration=3000), # Red-Orange
+                        transitions.RGBTransition(250, 200, 52, duration=3000), # Yellow
+                        transitions.RGBTransition(50, 240, 50, duration=3000),   # Green
+                        transitions.RGBTransition(0, 255, 128, duration=3000), # Green-Cyan
+                        transitions.RGBTransition(50, 50, 240, duration=3000),   # Blue
+                        transitions.RGBTransition(120, 0, 250, duration=3000), # Purple
+                        transitions.RGBTransition(250, 30, 128, duration=3000), # Magenta-Red
                     ]
                 )
                 self.bulb.start_flow(flow)
@@ -299,12 +314,13 @@ class App(ctk.CTk):
                     count=0,
                     action=Flow.actions.recover,
                     transitions=[
-                        transitions.RGBTransition(255, 0, 0, duration=1000),  # Red
-                        transitions.RGBTransition(0, 255, 0, duration=1000),   # Green
-                        transitions.RGBTransition(255, 0, 255, duration=1000),    # Magenta
-                        transitions.RGBTransition(0, 0, 255, duration=1000),  # Blue
-                        transitions.RGBTransition(255, 255, 0, duration=1000),  # Yellow
-                        transitions.RGBTransition(0, 255, 255, duration=1000),   # Cyan
+                        transitions.RGBTransition(255, 0, 0, duration=300),   # Red
+                        transitions.RGBTransition(0, 255, 0, duration=300),   # Green
+                        transitions.RGBTransition(0, 0, 255, duration=300),   # Blue
+                        transitions.RGBTransition(255, 255, 0, duration=300), # Yellow
+                        transitions.RGBTransition(0, 255, 255, duration=300), # Cyan
+                        transitions.RGBTransition(255, 0, 255, duration=300), # Magenta
+                        transitions.RGBTransition(255, 255, 255, duration=300), # White
 
                     ]
                 )
